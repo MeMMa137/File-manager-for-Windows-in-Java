@@ -48,3 +48,48 @@ class FsTree extends JPanel implements MouseListener {
             y += S;
         }
     }
+    
+boolean inputStringa() {
+        System.out.println("Inserisci parola da cercare: ");
+        String parola = leggiString();
+        boolean parTrovata = stringTrova(root, parola);
+        System.out.println("Parola trovata: " + parTrovata);
+        return parTrovata;
+    }
+
+    boolean stringTrova(Nodo n, String target) {
+        if (n == null) {
+            return false;
+        }
+
+        if (n.nome.equals(target)) {
+            nTrovato = n;
+            return true;
+        }
+
+        for (Nodo figlio : n.figli) {
+            if (stringTrova(figlio, target)) {
+                return true;
+            }
+        }
+
+        for (String s : n.files) {
+            if (s.equals(target)) {
+                nTrovato = n;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    void coloreTrovato(Nodo n, Color colore, boolean trovato) {
+        if (trovato) {
+            coloraPercorso(root, n, colore);
+
+        } else {
+            SOP("non colorato");
+            setBackground(new Color(255, 80, 220)); //prof rosa su rosa non si vede nullaaaa, quindi ho cambiato tonalità
+            showMessageDialog("File non trovato");
+        }
+    }
