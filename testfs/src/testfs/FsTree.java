@@ -147,4 +147,45 @@ class FsTree extends JPanel implements MouseListener {
         }
         return null;
     }
+    
+    public static void cancellaFile(Nodo fileDaCancellare) {
+        try {
+            SOP("entrato in funz canc");
+            File file = new File(fileDaCancellare.nome);
+            if (file.exists()) {
+                SOP("vuoi cancellare file: " + file.getAbsolutePath() + "?");
+                if (file.delete()) {
+                    SOP("File cancellato con successo: " + file.getAbsolutePath());
+                } else {
+                    SOP("Impossibile cancellare il file: " + file.getAbsolutePath());
+                }
+            } else {
+                SOP("Il file non esiste: " + file.getAbsolutePath());
+            }
+        } catch (Exception e) {
+            System.err.println("Errore durante la cancellazione del file.");
+            e.printStackTrace();
+        }
+    }
+
+    public static void creaFileDiTesto(Nodo cartella) {
+        try {
+            SOP("Inserisci nome file.txt da creare: ");
+            String nomeFile = leggiString();
+            File file = new File(cartella.nome + File.separator + nomeFile);
+            FileWriter fileWriter = new FileWriter(file);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            bufferedWriter.write("Contenuto del file di testo.");  // Aggiungi il tuo contenuto qui
+            bufferedWriter.close();
+
+            SOP("File di testo creato con successo: " + file.getAbsolutePath());
+        } catch (IOException e) {
+            System.err.println("Errore durante la creazione del file di testo.");
+            e.printStackTrace();
+        }
+    }
+
+    private static void showMessageDialog(String message) {
+        JOptionPane.showMessageDialog(null, message);
+    }
 }
