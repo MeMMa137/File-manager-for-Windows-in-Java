@@ -1,11 +1,17 @@
-
 package testfs;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 import javax.swing.JPanel;
+import javax.swing.JOptionPane;
 
 class FsTree extends JPanel implements MouseListener {
 
@@ -48,8 +54,8 @@ class FsTree extends JPanel implements MouseListener {
             y += S;
         }
     }
-    
-boolean inputStringa() {
+
+    boolean inputStringa() {
         System.out.println("Inserisci parola da cercare: ");
         String parola = leggiString();
         boolean parTrovata = stringTrova(root, parola);
@@ -93,3 +99,52 @@ boolean inputStringa() {
             showMessageDialog("File non trovato");
         }
     }
+
+    void coloraPercorso(Nodo current, Nodo target, Color colore) {
+        if (current != null) {
+            if (current == target) {
+                current.fileColor = colore;
+            } else {
+                current.fileColor = colore;
+                for (Nodo figlio : current.figli) {
+                    coloraPercorso(figlio, target, colore);
+                }
+            }
+        }
+    }
+
+    int contaFile(Nodo nodo) {
+        int count = nodo.files.size();
+
+        for (Nodo figlio : nodo.figli) {
+            count += contaFile(figlio);
+        }
+
+        return count;
+    }
+
+    int contaCartelle(Nodo nodo) {
+        int count = 1; // Conta la cartella corrente
+
+        for (Nodo figlio : nodo.figli) {
+            count += contaCartelle(figlio);
+        }
+
+        return count;
+    }
+
+    private Nodo cartellaClick(Nodo nodo, int mouseX, int mouseY) {
+        if (mouseX >= nodo.x && mouseX <= nodo.x + S && mouseY >= nodo.y - S && mouseY <= nodo.y) {
+            SOP(" TROVATO x: " + mouseX + "  y: " + mouseY);
+            return nodo;
+        }
+
+        for (Nodo figlio : nodo.figli) {
+            Nodo risultato = cartellaClick(figlio, mouseX, mouseY);
+            if (risultato != null) {
+                return risultato;
+            }
+        }
+        return null;
+    }
+}
