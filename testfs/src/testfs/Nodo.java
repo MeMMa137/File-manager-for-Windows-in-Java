@@ -1,6 +1,7 @@
 package testfs;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.io.File;
 import java.util.LinkedList;
 
@@ -22,15 +23,20 @@ public class Nodo {
         files = new LinkedList<>();
         try {
             File f = new File(path);
-            for (File sub : f.listFiles()) {
+            for(File sub : f.listFiles()) {
                 String name = sub.getName();
-                if (sub.isDirectory()) {
-                    Nodo nn = new Nodo(path + "\\" + name);
+                if(sub.isDirectory()) {
+                    Nodo nn = new Nodo(path+"\\"+name);
                     figli.add(nn);
-                } else {
+                }else
                     files.add(name);
-                }
             }
-        }
+        }catch(Exception e) {}
+    }
+    
+    public void disegna(Graphics g, int x, int y) {
+        this.x=x;
+        this.y=y;
+        g.drawString(nome, x, y);
     }
 }
