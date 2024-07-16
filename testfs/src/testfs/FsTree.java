@@ -188,4 +188,57 @@ class FsTree extends JPanel implements MouseListener {
     private static void showMessageDialog(String message) {
         JOptionPane.showMessageDialog(null, message);
     }
+    
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        y = S;
+        Font font = new Font("Courier New", Font.PLAIN, S);
+        g.setFont(font);
+        disegna(g, root, 0);
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        SOP("cliccato");
+        if (e.getButton() == MouseEvent.BUTTON3) {
+            int mouseX = e.getX();
+            int mouseY = e.getY();
+            Nodo fileCliccato = cartellaClick(root, mouseX, mouseY);
+            if (fileCliccato != null) {
+                cancellaFile(fileCliccato);
+            }
+        }else{
+        int mouseX = e.getX();
+        int mouseY = e.getY();
+        Nodo cartellaCliccata = cartellaClick(root, mouseX, mouseY);
+        if (cartellaCliccata != null) {
+            SOP("cartella cliccata: " + cartellaCliccata);
+            creaFileDiTesto(cartellaCliccata);
+        } else {
+            SOP("cartella null");
+        }}
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+    
 }
